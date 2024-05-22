@@ -1,11 +1,13 @@
 ﻿using EShopper.Data;
 using EShopper.Infrastructure;
 using EShopper.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace EShopper.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         public Cart? Cart { get; set; }
