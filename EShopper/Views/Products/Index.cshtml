@@ -1,5 +1,9 @@
 ﻿@using EShopper.Models.ViewModels
+@using Microsoft.AspNetCore.Identity
 @model ProductListViewModel
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -145,6 +149,12 @@
                             <div class="card-footer d-flex justify-content-between bg-light border">
                                 <a href="/Products/Details/?id=@item.PoductId" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                                 <a href="/Cart/AddToCart/?productId=@item.PoductId" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a href="/Products/Delete/@item.PoductId" class="btn btn-sm text-dark p-0">Delete</a>
+                                    <a href="/Products/Edit/@item.PoductId" class="btn btn-sm text-dark p-0">Edit</a>
+                                }
                             </div>
                         </div>
                     </div>
