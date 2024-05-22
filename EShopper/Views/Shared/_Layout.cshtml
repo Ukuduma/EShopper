@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -113,6 +118,10 @@
                                     @* <a href="/Cart/Checkout" class="dropdown-item">Checkout</a> *@
                                 </div>
                             </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Products/Create" class="nav-item nav-link">Create product</a>
+                            }
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <partial name="_LoginPartial" />
