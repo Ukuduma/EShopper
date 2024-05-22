@@ -80,7 +80,7 @@ public class Program
 
                 await userManager.CreateAsync(user, password);
 
-                userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "Admin");
             }
         }
 

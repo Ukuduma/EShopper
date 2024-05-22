@@ -22,9 +22,9 @@
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <a href="/Cart/DecreaseFromCart/?productId=@line.Product.PoductId" class="btn btn-sm btn-primary btn-minus">
+                                        <button class="btn btn-sm btn-primary btn-minus" data-product-id="@line.Product.PoductId">
                                             <i class="fa fa-minus"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                     <input type="text" class="form-control form-control-sm bg-secondary text-center" value="@line.Quantity">
                                     <div class="input-group-btn">
@@ -43,12 +43,12 @@
         </div>
         <div class="col-lg-4">
             @* <form class="mb-5" action="">
-                <div class="input-group">
-                    <input type="text" class="form-control p-4" placeholder="Coupon Code">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary">Apply Coupon</button>
-                    </div>
-                </div>
+            <div class="input-group">
+            <input type="text" class="form-control p-4" placeholder="Coupon Code">
+            <div class="input-group-append">
+            <button class="btn btn-primary">Apply Coupon</button>
+            </div>
+            </div>
             </form> *@
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
@@ -75,3 +75,21 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.btn-minus').forEach(button => {
+            button.addEventListener('click', function (event) {
+                var productId = event.currentTarget.getAttribute('data-product-id');
+                var quantityInput = event.currentTarget.closest('.quantity').querySelector('input');
+                var currentQuantity = parseInt(quantityInput.value);
+
+                if (currentQuantity <= 1) {
+                    window.location.href = '/Cart/RemoveFromCart/?productId=' + productId;
+                } else {
+                    window.location.href = '/Cart/DecreaseFromCart/?productId=' + productId;
+                }
+            });
+        });
+    </script>
+}

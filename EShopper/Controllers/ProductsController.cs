@@ -59,10 +59,27 @@ namespace EShopper.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> ProductByCategory(int categoryId)
+        public async Task<IActionResult> ProductByCategory(int categoryId, int productPage = 1)
         {
-            var applicationDbContext = _context.Products.Where(p=>p.CategoryId==categoryId).Include(p => p.Category).Include(p => p.Color).Include(p => p.Size);
-            return View("Index", await applicationDbContext.ToListAsync());
+            var products = _context.Products.Where(p => p.CategoryId == categoryId)
+                                            .Include(p => p.Category)
+                                            .Include(p => p.Color)
+                                            .Include(p => p.Size)
+                                            .Skip((productPage - 1) * pageSize)
+                                            .Take(pageSize);
+
+            var viewModel = new ProductListViewModel
+            {
+                Products = await products.ToListAsync(),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = pageSize,
+                    CurrentPage = productPage,
+                    TotalItems = await _context.Products.CountAsync(p => p.CategoryId == categoryId)
+                }
+            };
+
+            return View("Index", viewModel);
         }
 
         // GET: Products/Details/5
